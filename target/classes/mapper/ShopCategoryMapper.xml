@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.ShopCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.ShopCategory" >
+    <id column="shop_category_id" property="shopCategoryId" jdbcType="INTEGER" />
+    <result column="shop_category_name" property="shopCategoryName" jdbcType="VARCHAR" />
+    <result column="shop_category_upper" property="shopCategoryUpper" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    shop_category_id, shop_category_name, shop_category_upper
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.ShopCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_shop_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_shop_category
+    where shop_category_id = #{shopCategoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_shop_category
+    where shop_category_id = #{shopCategoryId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.ShopCategory" >
+    insert into t_shop_category (shop_category_id, shop_category_name, 
+      shop_category_upper)
+    values (#{shopCategoryId,jdbcType=INTEGER}, #{shopCategoryName,jdbcType=VARCHAR}, 
+      #{shopCategoryUpper,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.ShopCategory" >
+    insert into t_shop_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shopCategoryId != null" >
+        shop_category_id,
+      </if>
+      <if test="shopCategoryName != null" >
+        shop_category_name,
+      </if>
+      <if test="shopCategoryUpper != null" >
+        shop_category_upper,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shopCategoryId != null" >
+        #{shopCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="shopCategoryName != null" >
+        #{shopCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCategoryUpper != null" >
+        #{shopCategoryUpper,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.ShopCategory" >
+    update t_shop_category
+    <set >
+      <if test="shopCategoryName != null" >
+        shop_category_name = #{shopCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCategoryUpper != null" >
+        shop_category_upper = #{shopCategoryUpper,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where shop_category_id = #{shopCategoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.ShopCategory" >
+    update t_shop_category
+    set shop_category_name = #{shopCategoryName,jdbcType=VARCHAR},
+      shop_category_upper = #{shopCategoryUpper,jdbcType=VARCHAR}
+    where shop_category_id = #{shopCategoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

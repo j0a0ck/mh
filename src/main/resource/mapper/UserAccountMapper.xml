@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.UserAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.UserAccount" >
+    <id column="account_id" property="accountId" jdbcType="INTEGER" />
+    <result column="account_name" property="accountName" jdbcType="VARCHAR" />
+    <result column="account_money" property="accountMoney" jdbcType="VARCHAR" />
+    <result column="account_gold" property="accountGold" jdbcType="VARCHAR" />
+    <result column="account_deposit" property="accountDeposit" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    account_id, account_name, account_money, account_gold, account_deposit, user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.UserAccountExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_user_account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_account
+    where account_id = #{accountId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_account
+    where account_id = #{accountId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.UserAccount" >
+    insert into t_user_account (account_id, account_name, account_money, 
+      account_gold, account_deposit, user_id
+      )
+    values (#{accountId,jdbcType=INTEGER}, #{accountName,jdbcType=VARCHAR}, #{accountMoney,jdbcType=VARCHAR}, 
+      #{accountGold,jdbcType=VARCHAR}, #{accountDeposit,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.UserAccount" >
+    insert into t_user_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="accountName != null" >
+        account_name,
+      </if>
+      <if test="accountMoney != null" >
+        account_money,
+      </if>
+      <if test="accountGold != null" >
+        account_gold,
+      </if>
+      <if test="accountDeposit != null" >
+        account_deposit,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="accountName != null" >
+        #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountMoney != null" >
+        #{accountMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="accountGold != null" >
+        #{accountGold,jdbcType=VARCHAR},
+      </if>
+      <if test="accountDeposit != null" >
+        #{accountDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.UserAccount" >
+    update t_user_account
+    <set >
+      <if test="accountName != null" >
+        account_name = #{accountName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountMoney != null" >
+        account_money = #{accountMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="accountGold != null" >
+        account_gold = #{accountGold,jdbcType=VARCHAR},
+      </if>
+      <if test="accountDeposit != null" >
+        account_deposit = #{accountDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.UserAccount" >
+    update t_user_account
+    set account_name = #{accountName,jdbcType=VARCHAR},
+      account_money = #{accountMoney,jdbcType=VARCHAR},
+      account_gold = #{accountGold,jdbcType=VARCHAR},
+      account_deposit = #{accountDeposit,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=INTEGER}
+  </update>
+</mapper>

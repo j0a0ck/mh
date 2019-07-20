@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.GoldDetailsMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.GoldDetails" >
+    <id column="gold_detail_id" property="goldDetailId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="gold_money" property="goldMoney" jdbcType="DOUBLE" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="gold_id" property="goldId" jdbcType="VARCHAR" />
+    <result column="recharge_amount" property="rechargeAmount" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    gold_detail_id, create_time, type, gold_money, content, gold_id, recharge_amount
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.GoldDetailsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_gold_details
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gold_details
+    where gold_detail_id = #{goldDetailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_gold_details
+    where gold_detail_id = #{goldDetailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.GoldDetails" >
+    insert into t_gold_details (gold_detail_id, create_time, type, 
+      gold_money, content, gold_id, 
+      recharge_amount)
+    values (#{goldDetailId,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{type,jdbcType=VARCHAR}, 
+      #{goldMoney,jdbcType=DOUBLE}, #{content,jdbcType=VARCHAR}, #{goldId,jdbcType=VARCHAR}, 
+      #{rechargeAmount,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.GoldDetails" >
+    insert into t_gold_details
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goldDetailId != null" >
+        gold_detail_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="goldMoney != null" >
+        gold_money,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="goldId != null" >
+        gold_id,
+      </if>
+      <if test="rechargeAmount != null" >
+        recharge_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goldDetailId != null" >
+        #{goldDetailId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="goldMoney != null" >
+        #{goldMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="goldId != null" >
+        #{goldId,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAmount != null" >
+        #{rechargeAmount,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.GoldDetails" >
+    update t_gold_details
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="goldMoney != null" >
+        gold_money = #{goldMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="goldId != null" >
+        gold_id = #{goldId,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAmount != null" >
+        recharge_amount = #{rechargeAmount,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gold_detail_id = #{goldDetailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.GoldDetails" >
+    update t_gold_details
+    set create_time = #{createTime,jdbcType=DATE},
+      type = #{type,jdbcType=VARCHAR},
+      gold_money = #{goldMoney,jdbcType=DOUBLE},
+      content = #{content,jdbcType=VARCHAR},
+      gold_id = #{goldId,jdbcType=VARCHAR},
+      recharge_amount = #{rechargeAmount,jdbcType=VARCHAR}
+    where gold_detail_id = #{goldDetailId,jdbcType=INTEGER}
+  </update>
+</mapper>

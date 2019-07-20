@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.GoldAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.GoldAccount" >
+    <id column="gold_id" property="goldId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="gold_total" property="goldTotal" jdbcType="DOUBLE" />
+    <result column="account_id" property="accountId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    gold_id, create_time, gold_total, account_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.GoldAccountExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_gold_account
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gold_account
+    where gold_id = #{goldId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_gold_account
+    where gold_id = #{goldId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.GoldAccount" >
+    insert into t_gold_account (gold_id, create_time, gold_total, 
+      account_id)
+    values (#{goldId,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{goldTotal,jdbcType=DOUBLE}, 
+      #{accountId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.GoldAccount" >
+    insert into t_gold_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goldId != null" >
+        gold_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="goldTotal != null" >
+        gold_total,
+      </if>
+      <if test="accountId != null" >
+        account_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goldId != null" >
+        #{goldId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="goldTotal != null" >
+        #{goldTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.GoldAccount" >
+    update t_gold_account
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="goldTotal != null" >
+        gold_total = #{goldTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="accountId != null" >
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where gold_id = #{goldId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.GoldAccount" >
+    update t_gold_account
+    set create_time = #{createTime,jdbcType=DATE},
+      gold_total = #{goldTotal,jdbcType=DOUBLE},
+      account_id = #{accountId,jdbcType=VARCHAR}
+    where gold_id = #{goldId,jdbcType=INTEGER}
+  </update>
+</mapper>

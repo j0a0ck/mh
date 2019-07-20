@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.ShopIdInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.ShopIdInformation" >
+    <id column="business_id" property="businessId" jdbcType="INTEGER" />
+    <result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+    <result column="business_loa" property="businessLoa" jdbcType="VARCHAR" />
+    <result column="business_permit" property="businessPermit" jdbcType="VARCHAR" />
+    <result column="other_supporting" property="otherSupporting" jdbcType="VARCHAR" />
+    <result column="shop_id" property="shopId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    business_id, business_license, business_loa, business_permit, other_supporting, shop_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.ShopIdInformationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_shop_id_information
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_shop_id_information
+    where business_id = #{businessId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_shop_id_information
+    where business_id = #{businessId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.ShopIdInformation" >
+    insert into t_shop_id_information (business_id, business_license, business_loa, 
+      business_permit, other_supporting, shop_id
+      )
+    values (#{businessId,jdbcType=INTEGER}, #{businessLicense,jdbcType=VARCHAR}, #{businessLoa,jdbcType=VARCHAR}, 
+      #{businessPermit,jdbcType=VARCHAR}, #{otherSupporting,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.ShopIdInformation" >
+    insert into t_shop_id_information
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="businessId != null" >
+        business_id,
+      </if>
+      <if test="businessLicense != null" >
+        business_license,
+      </if>
+      <if test="businessLoa != null" >
+        business_loa,
+      </if>
+      <if test="businessPermit != null" >
+        business_permit,
+      </if>
+      <if test="otherSupporting != null" >
+        other_supporting,
+      </if>
+      <if test="shopId != null" >
+        shop_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="businessId != null" >
+        #{businessId,jdbcType=INTEGER},
+      </if>
+      <if test="businessLicense != null" >
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLoa != null" >
+        #{businessLoa,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPermit != null" >
+        #{businessPermit,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSupporting != null" >
+        #{otherSupporting,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.ShopIdInformation" >
+    update t_shop_id_information
+    <set >
+      <if test="businessLicense != null" >
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLoa != null" >
+        business_loa = #{businessLoa,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPermit != null" >
+        business_permit = #{businessPermit,jdbcType=VARCHAR},
+      </if>
+      <if test="otherSupporting != null" >
+        other_supporting = #{otherSupporting,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null" >
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where business_id = #{businessId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.ShopIdInformation" >
+    update t_shop_id_information
+    set business_license = #{businessLicense,jdbcType=VARCHAR},
+      business_loa = #{businessLoa,jdbcType=VARCHAR},
+      business_permit = #{businessPermit,jdbcType=VARCHAR},
+      other_supporting = #{otherSupporting,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=VARCHAR}
+    where business_id = #{businessId,jdbcType=INTEGER}
+  </update>
+</mapper>

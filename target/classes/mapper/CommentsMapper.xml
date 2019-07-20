@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pgyer.dao.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.pgyer.entity.Comments" >
+    <id column="comment_id" property="commentId" jdbcType="INTEGER" />
+    <result column="comment_user" property="commentUser" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="comment_level" property="commentLevel" jdbcType="VARCHAR" />
+    <result column="comment_time" property="commentTime" jdbcType="DATE" />
+    <result column="user_photo" property="userPhoto" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="comment_exist" property="commentExist" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    comment_id, comment_user, status, comment_level, comment_time, user_photo, user_name, 
+    comment_exist, order_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pgyer.entity.CommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comments
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_comments
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pgyer.entity.Comments" >
+    insert into t_comments (comment_id, comment_user, status, 
+      comment_level, comment_time, user_photo, 
+      user_name, comment_exist, order_id
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{commentUser,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{commentLevel,jdbcType=VARCHAR}, #{commentTime,jdbcType=DATE}, #{userPhoto,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{commentExist,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pgyer.entity.Comments" >
+    insert into t_comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        comment_id,
+      </if>
+      <if test="commentUser != null" >
+        comment_user,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="commentLevel != null" >
+        comment_level,
+      </if>
+      <if test="commentTime != null" >
+        comment_time,
+      </if>
+      <if test="userPhoto != null" >
+        user_photo,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="commentExist != null" >
+        comment_exist,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentId != null" >
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="commentUser != null" >
+        #{commentUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commentLevel != null" >
+        #{commentLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null" >
+        #{commentTime,jdbcType=DATE},
+      </if>
+      <if test="userPhoto != null" >
+        #{userPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentExist != null" >
+        #{commentExist,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pgyer.entity.Comments" >
+    update t_comments
+    <set >
+      <if test="commentUser != null" >
+        comment_user = #{commentUser,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="commentLevel != null" >
+        comment_level = #{commentLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null" >
+        comment_time = #{commentTime,jdbcType=DATE},
+      </if>
+      <if test="userPhoto != null" >
+        user_photo = #{userPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="commentExist != null" >
+        comment_exist = #{commentExist,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pgyer.entity.Comments" >
+    update t_comments
+    set comment_user = #{commentUser,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      comment_level = #{commentLevel,jdbcType=VARCHAR},
+      comment_time = #{commentTime,jdbcType=DATE},
+      user_photo = #{userPhoto,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      comment_exist = #{commentExist,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>
